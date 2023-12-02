@@ -18,9 +18,11 @@
 
     <label for="birthdate" class="block text-sm font-medium text-gray-600 mb-2">Enter your birthdate:</label>
     <!-- Replace the native date input with Syncfusion DatePicker -->
-    <input type="text" id="birthdate" class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+    <input type="text" id="birthdate"
+      class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
 
-    <button onclick="calculateAge()" class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 w-full">
+    <button onclick="calculateAge()"
+      class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 w-full">
       Calculate Age
     </button>
 
@@ -40,7 +42,7 @@
 
       // Validate if a date is selected
       if (!birthdateInput) {
-        alert("Please select a valid birthdate.");
+        alert("Please select a valid date.");
         return;
       }
 
