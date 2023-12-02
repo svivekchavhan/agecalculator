@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <!-- Add Syncfusion scripts and stylesheets -->
+  <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/19.2.51/material.css">
+  <script src="https://cdn.syncfusion.com/ej2/19.2.51/dist/ej2.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 p-8">
+  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Age Calculator</h1>
+
+    <label for="birthdate" class="block text-sm font-medium text-gray-600 mb-2">Enter your birthdate:</label>
+    <!-- Replace the native date input with Syncfusion DatePicker -->
+    <input type="text" id="birthdate" class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+
+    <button onclick="calculateAge()" class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 w-full">
+      Calculate Age
+    </button>
+
+    <div id="result" class="mt-8 text-gray-700"></div>
+  </div>
+
+  <script>
+    // Initialize Syncfusion DatePicker
+    var birthdatePicker = new ej.calendars.DatePicker({
+      format: 'yyyy-MM-dd',
+      placeholder: 'Select a date'
+    });
+    birthdatePicker.appendTo('#birthdate');
+
+    function calculateAge() {
+      const birthdateInput = birthdatePicker.value;
+
+      // Validate if a date is selected
+      if (!birthdateInput) {
+        alert("Please select a valid birthdate.");
+        return;
+      }
+
+      const now = new Date();
+      const ageInMilliseconds = now - birthdateInput;
+      const ageInSeconds = ageInMilliseconds / 1000;
+      const ageInMinutes = ageInSeconds / 60;
+      const ageInHours = ageInMinutes / 60;
+      const ageInDays = ageInHours / 24;
+      // Calculate age in months, considering each month as 30.44 days
+      const ageInMonths = ageInDays / 30.44;
+      // Convert months to years when it exceeds 12 months
+      const years = Math.floor(ageInMonths / 12);
+      const remainingMonths = Math.floor(ageInMonths % 12);
+      const nextBirthday = new Date(now.getFullYear(), birthdateInput.getMonth(), birthdateInput.getDate());
+      if (nextBirthday < now) {
+        nextBirthday.setFullYear(now.getFullYear() + 1);
+      }
+      const daysUntilNextBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+      const resultElement = document.getElementById('result');
+      resultElement.innerHTML = `
+                <table class="table-auto">
+                    <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">Age</td>
+                            <td class="border px-4 py-2">${years} years, ${remainingMonths} months, ${Math.floor(ageInDays)} days</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Time</td>
+                            <td class="border px-4 py-2">${Math.floor(ageInHours % 24)} hours, ${Math.floor(ageInMinutes % 60)} minutes</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Next Birthday</td>
+                            <td class="border px-4 py-2">${daysUntilNextBirthday} days</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+    }
+  </script>
+</body>
+
+</html>
